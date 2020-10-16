@@ -1,7 +1,4 @@
-
-testing_path = 'M 100 300 Q 150 50 200 300 Q 250 550 300 300 Q 350 50 400 300 C 450 550 450 50 500 300 C 550 50 550 550 600 300 A 50 50 0 1 1 700 300 '
-
-def normalize(svgpath, scalar):
+def normalize(svgpath, scalar=1):
     tokens = svgpath.split()
     points = init_points(tokens)
     del(tokens)
@@ -13,11 +10,11 @@ def normalize(svgpath, scalar):
         if point[0].lower() == 'l':
             point = l_normalizer(point, largest_number, scalar)
         elif point[0].lower() == 'q':
-            point = l_normalizer(point, largest_number, scalar)
+            point = q_normalizer(point, largest_number, scalar)
         elif point[0].lower() == 'c':
-            point = l_normalizer(point, largest_number, scalar)
+            point = c_normalizer(point, largest_number, scalar)
         elif point[0].lower() == 'a':
-            point = l_normalizer(point, largest_number, scalar)
+            point = a_normalizer(point, largest_number, scalar)
     del(largest_number)
 
     svgpath = ''
@@ -52,7 +49,7 @@ def q_normalizer(point, largest_number, scalar):
     point[4] = str(c_y)
     return point
 
-def c_normalizer(point, largest_number, factor):
+def c_normalizer(point, largest_number, scalar):
     point = q_normalizer(point, largest_number, scalar)
     c_x = float(point[5])
     c_y = float(point[6])
