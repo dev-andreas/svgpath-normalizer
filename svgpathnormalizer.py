@@ -1,19 +1,23 @@
 
-def normalize(svgpath, factor):
+testing_scalar = 'M 100 300 Q 150 50 200 300 Q 250 550 300 300 Q 350 50 400 300 C 450 550 450 50 500 300 C 550 50 550 550 600 300 A 50 50 0 1 1 700 300 '
+
+def normalize(svgpath, scalar):
     tokens = svgpath.split()
     points = init_points(tokens)
     del(tokens)
     largest_number = get_largest_number(points)
 
     for point in points:
+        if point[0].lower() == 'm':
+            point = l_normalizer(point, largest_number, scalar)
         if point[0].lower() == 'l':
-            point = l_normalizer(point, largest_number, factor)
+            point = l_normalizer(point, largest_number, scalar)
         elif point[0].lower() == 'q':
-            point = l_normalizer(point, largest_number, factor)
+            point = l_normalizer(point, largest_number, scalar)
         elif point[0].lower() == 'c':
-            point = l_normalizer(point, largest_number, factor)
+            point = l_normalizer(point, largest_number, scalar)
         elif point[0].lower() == 'a':
-            point = l_normalizer(point, largest_number, factor)
+            point = l_normalizer(point, largest_number, scalar)
     del(largest_number)
 
     svgpath = ''
@@ -23,45 +27,45 @@ def normalize(svgpath, factor):
             svgpath += token + ' '
     return svgpath
 
-def l_normalizer(point, largest_number, factor):
+def l_normalizer(point, largest_number, scalar):
     x = float(point[1])
     y = float(point[2])
 
-    x /= (largest_number / factor)
-    y /= (largest_number / factor)
+    x /= (largest_number / scalar)
+    y /= (largest_number / scalar)
 
     point[1] = str(x)
     point[2] = str(y)
     
     return point
 
-def q_normalizer(point, largest_number, factor):
-    point = l_normalizer(point, largest_number, factor)
+def q_normalizer(point, largest_number, scalar):
+    point = l_normalizer(point, largest_number, scalar)
 
     c_x = float(point[3])
     c_y = float(point[4])
 
-    c_x /= (largest_number / factor)
-    c_y /= (largest_number / factor)
+    c_x /= (largest_number / scalar)
+    c_y /= (largest_number / scalar)
 
     point[3] = str(c_x)
     point[4] = str(c_y)
     return point
 
 def c_normalizer(point, largest_number, factor):
-    point = q_normalizer(point, largest_number, factor)
+    point = q_normalizer(point, largest_number, scalar)
     c_x = float(point[5])
     c_y = float(point[6])
 
-    c_x /= (largest_number / factor)
-    c_y /= (largest_number / factor)
+    c_x /= (largest_number / scalar)
+    c_y /= (largest_number / scalar)
 
     point[5] = str(c_x)
     point[6] = str(c_y)
     return point
 
-def a_normalizer(point, largest_number, factor):
-    point = q_normalizer(point, largest_number, factor)
+def a_normalizer(point, largest_number, scalar):
+    point = q_normalizer(point, largest_number, scalar)
     return point
 
 def init_points(tokens):
@@ -97,5 +101,4 @@ def is_number(s):
         return True
     except ValueError:
         return False
-
-print(normalize('M 400 300 A 50 125 0 1 1 475 300 L 450 375 L 225 325 Q 350 250 200 200 L 275 50 C 300 175 650 125 575 175 A 50 50 0 1 1 550 450 ', 1))
+    
