@@ -15,6 +15,7 @@ def normalize(svgpath, scalar=1):
             point = c_normalizer(point, largest_number, scalar)
         elif point[0].lower() == 'a':
             point = a_normalizer(point, largest_number, scalar)
+            
     del(largest_number)
 
     svgpath = ''
@@ -62,7 +63,16 @@ def c_normalizer(point, largest_number, scalar):
     return point
 
 def a_normalizer(point, largest_number, scalar):
-    point = q_normalizer(point, largest_number, scalar)
+    point = l_normalizer(point, largest_number, scalar)
+
+    p_x = float(point[6])
+    p_y = float(point[7])
+
+    p_x /= (largest_number / scalar)
+    p_y /= (largest_number / scalar)
+
+    point[6] = str(p_x)
+    point[7] = str(p_y)
     return point
 
 def init_points(tokens):
@@ -79,13 +89,23 @@ def init_points(tokens):
             points.append(point)
             point = []
             point.append(token)
+    points.append(point)
     return points
 
 def get_largest_number(points):
     largest_number = 0
     for point in points:
-        number1 = float(point[1])
-        number2 = float(point[2])
+        number1, number2 = 0, 0
+        
+        if point[0].lower() == 'z':
+            continue
+        elif point[0].lower() ==  'a':
+            number1 = float(point[6])
+            number2 = float(point[7])
+        else:
+            number1 = float(point[1])
+            number2 = float(point[2])
+        
         if number1 > largest_number:
             largest_number = number1
         if number2 > largest_number:
