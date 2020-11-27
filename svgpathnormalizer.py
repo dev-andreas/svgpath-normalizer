@@ -34,7 +34,6 @@ def l_normalizer(point, largest_number, scalar):
 
     point[1] = str(x)
     point[2] = str(y)
-    
     return point
 
 def q_normalizer(point, largest_number, scalar):
