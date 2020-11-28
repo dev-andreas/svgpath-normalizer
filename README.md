@@ -1,2 +1,2 @@
 # svgpath-normalizer
-A simple program for scaling svgpaths.
+Simple algorithm for scaling svgpaths.
