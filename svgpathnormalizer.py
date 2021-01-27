@@ -1,4 +1,6 @@
-def normalize(svgpath, scalar=1):
+'''Module for scaling and svgpaths'''
+
+def scale(svgpath, scalar=1):
     tokens = svgpath.split()
     points = init_points(tokens)
     del(tokens)
