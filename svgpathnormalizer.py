@@ -17,8 +17,6 @@ def scale(svgpath, scalar=1):
             point = c_normalizer(point, largest_number, scalar)
         elif point[0].lower() == 'a':
             point = a_normalizer(point, largest_number, scalar)
-            
-    del(largest_number)
 
     svgpath = ''
     
